@@ -2,104 +2,113 @@
 
 ## Project Overview
 
-Personal professional website for Ben Gatlin. The goal is a polished, performant site that serves as a hub for professional identity: bio, projects, writing, and contact.
+Personal professional website for Ben Gatlin. Plain HTML, CSS, and vanilla JavaScript — no framework, no build tools. Deployable to GitHub Pages by pushing to `main` (once Pages is enabled in repo settings: Settings → Pages → Deploy from branch → main → / (root)).
 
-## Tech Stack
+## Stack
 
-Framework: **TBD** — likely Astro or Next.js. Decide before scaffolding begins.
-Styling: **TBD** — leaning toward Tailwind CSS.
-Hosting: **TBD** — likely Vercel or GitHub Pages.
-Domain: **TBD**
+- **HTML**: Semantic HTML5, one file per page
+- **CSS**: Single `css/styles.css` with CSS custom properties for design tokens
+- **JS**: Single `js/scripts.js` — mobile nav, active link, smooth scroll, scroll reveal
+- **Fonts**: Playfair Display + Lora via Google Fonts (loaded in every `<head>`)
+- **Hosting**: GitHub Pages (static, no server required)
+- **Build tool**: None
 
-Once decided, update this section and add a `package.json` / framework-specific config to the root.
-
-## Directory Structure
+## File Structure
 
 ```
 BenGatlinWebsite/
-├── src/
-│   ├── components/   # Reusable UI components
-│   ├── pages/        # Route-level page components (or app/ for Next.js App Router)
-│   ├── styles/       # Global styles, Tailwind config overrides
-│   └── assets/       # Images, fonts, icons used in source
-├── public/           # Static files served at root (favicon, robots.txt, OG images)
-├── .claude/          # Claude Code project settings
-├── CLAUDE.md         # This file
-└── README.md         # GitHub-facing project description
+├── index.html          # Home / Hero
+├── about.html          # About Me
+├── experience.html     # Resume / Timeline
+├── projects.html       # Project Cards
+├── contact.html        # Contact Links
+├── css/
+│   └── styles.css      # All styles — see section comments inside
+├── js/
+│   └── scripts.js      # Mobile nav, active link, smooth scroll, scroll reveal
+├── assets/
+│   ├── profile.jpg     # Profile photo (used on index + about)
+│   └── resume.pdf      # Downloadable resume (linked from experience.html)
+├── .claude/
+│   └── settings.local.json
+├── .gitignore
+├── CLAUDE.md           # This file
+└── README.md
 ```
+
+## Design Tokens
+
+All defined as CSS custom properties in `css/styles.css` under section `2. DESIGN TOKENS`:
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--color-green-dark` | `#1A3320` | Navbar, hero background, dark accents |
+| `--color-green-mid` | `#2C4A2E` | Hover states, education card |
+| `--color-brown-dark` | `#3D2B1A` | Footer background, dark buttons |
+| `--color-brown-mid` | `#6B4C2A` | Timeline dots, card top borders, tags |
+| `--color-cream` | `#F5F0E8` | Page backgrounds, navbar text |
+| `--color-cream-dark` | `#E8E0D0` | Alternate section backgrounds, borders |
+| `--font-heading` | Playfair Display, Georgia, serif | All `h1`–`h4` elements |
+| `--font-body` | Lora, Georgia, serif | Body copy, nav links, labels |
+| `--max-width` | `1100px` | `.container` max width |
+| `--nav-height` | `70px` | Fixed navbar height; used for padding offsets |
 
 ## Conventions
 
 ### Naming
-- Files and folders: `kebab-case` for pages and assets, `PascalCase` for component files.
-- CSS classes: follow Tailwind utility-first conventions; avoid custom class names unless abstracting a complex pattern.
-- Variables/functions: `camelCase` in JS/TS.
+- HTML files: lowercase, no hyphens (`index.html`, `about.html`)
+- CSS classes: `kebab-case` (`.nav-links`, `.timeline-card`, `.project-card`)
+- JS variables/functions: `camelCase`
+- Assets: `kebab-case` (e.g. `profile-2024.jpg`)
 
-### Components
-- Keep components small and focused on a single responsibility.
-- Co-locate styles with components when framework supports it.
-- Prefer composition over inheritance.
+### HTML Patterns
+- Every page shares the same navbar and footer — copy both blocks verbatim when adding a page
+- All pages have `<main style="padding-top: var(--nav-height);">` to account for the fixed nav (except `index.html`, which uses the hero for this offset)
+- Scroll reveal: add class `reveal` to any element you want to animate in on scroll; JS handles the rest
 
-### Content
-- Written content (bio, project descriptions) lives in `src/pages/` or a `src/content/` folder if using a CMS or Markdown pipeline.
-- Images: optimize before committing. Use `.webp` where possible; keep originals in a separate untracked folder if needed.
+### Placeholders
+- All content placeholders are marked with `<!-- PLACEHOLDER: ... -->` HTML comments
+- Search for `PLACEHOLDER` across HTML files to find everything that needs real content
 
-### Git
-- Branch naming: `feature/<short-description>`, `fix/<short-description>`.
-- Commit messages: imperative mood, present tense ("Add hero section" not "Added hero section").
-- Never commit build artifacts or `node_modules`.
+## How to Add a New Project Card
 
-## Development Workflow
+1. Open `projects.html`
+2. Copy one of the existing `<article class="project-card ...">` blocks
+3. Paste it inside `.projects-grid` before the "Coming Soon" card
+4. Replace all `<!-- PLACEHOLDER -->` values: title, description, tags, and link
+5. Remove `project-card--coming-soon` class if copying from that card
 
-```bash
-# Install dependencies (once framework is chosen)
-npm install
+## How to Add an Experience Entry
 
-# Start dev server
-npm run dev
+1. Open `experience.html`
+2. Find the `<!-- TIMELINE ENTRY TEMPLATE -->` comment block
+3. Copy any `<div class="timeline-entry ...">` block
+4. Paste it at the top of `.timeline` (most recent experience first)
+5. Replace all `<!-- PLACEHOLDER -->` values: role, company, dates, bullet points
 
-# Build for production
-npm run build
+## How to Update Assets
 
-# Preview production build locally
-npm run preview
-```
+- **Profile photo**: Replace `assets/profile.jpg` (keep the same filename, or update `src` attributes in `index.html` and `about.html`)
+- **Resume**: Replace `assets/resume.pdf` (keep the same filename, or update the `href` in `experience.html`)
 
-## Design Guidelines
+## Git Workflow
 
-- **Tone:** Professional but personal — clean, not corporate.
-- **Typography:** Prioritize readability. Choose at most 2 typefaces.
-- **Color palette:** TBD. Establish a primary, secondary, and neutral scale before building components.
-- **Accessibility:** All interactive elements must be keyboard-navigable. Use semantic HTML. Target WCAG 2.1 AA.
-- **Performance:** Aim for Lighthouse score ≥ 90 across all categories before launch.
-- **Responsive:** Mobile-first. Test at 375px, 768px, and 1280px breakpoints minimum.
+- Branch naming: `feature/<short-description>`, `fix/<short-description>`
+- Commit messages: imperative mood ("Add projects section" not "Added projects section")
+- Push to `main` to deploy
 
-## Pages (Planned)
+## Deployment (GitHub Pages)
 
-| Page | Route | Purpose |
-|------|-------|---------|
-| Home | `/` | Hero, brief intro, links to key sections |
-| About | `/about` | Bio, background, values |
-| Projects | `/projects` | Portfolio of work |
-| Writing | `/writing` | Blog or essays (optional) |
-| Contact | `/contact` | Contact form or email link |
+1. Go to the repository on GitHub
+2. Settings → Pages → Build and deployment
+3. Source: **Deploy from a branch**
+4. Branch: `main` / `/ (root)`
+5. Save — the site will be live at `https://bengatlin.github.io/BenGatlinWebsite/`
 
-## Environment Variables
+## Responsive Breakpoints
 
-Store secrets in `.env.local` (never commit). Document required variables here:
-
-| Variable | Purpose | Required |
-|----------|---------|---------|
-| *(none yet)* | | |
-
-## Deployment
-
-Target platform TBD. Once configured, document the deploy process and any required CI/CD steps here.
-
-## Notes for Claude Code Sessions
-
-- Confirm framework choice before writing any component code.
-- When adding a new page, update the Pages table above.
-- Do not add dependencies without noting them in this file under a `## Dependencies` section.
-- Prefer editing existing files over creating new abstraction layers unless complexity clearly warrants it.
-- When touching styles, keep changes scoped — avoid global CSS unless intentional.
+| Breakpoint | Width | Key changes |
+|-----------|-------|-------------|
+| Desktop | > 1024px | Full layouts, side-by-side columns |
+| Tablet | ≤ 1024px | Condensed columns, stacked education card |
+| Mobile | ≤ 768px | Single column, hamburger nav, stacked footer |

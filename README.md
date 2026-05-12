@@ -1,27 +1,44 @@
 # BenGatlinWebsite
 
-Personal professional website — in development.
+Personal professional website for Ben Gatlin — built with plain HTML, CSS, and vanilla JavaScript. No frameworks, no build tools. Deployable directly to GitHub Pages.
 
 ## Stack
 
-TBD (likely Astro or Next.js + Tailwind CSS)
+- HTML5 (semantic, accessible)
+- CSS3 with custom properties (no preprocessor)
+- Vanilla JavaScript (ES6+)
+- Fonts: Playfair Display + Lora (Google Fonts)
 
-## Getting Started
+## Pages
 
-```bash
-npm install
-npm run dev
-```
+| File | Route | Description |
+|------|-------|-------------|
+| `index.html` | `/` | Hero, intro |
+| `about.html` | `/about.html` | Bio, areas of interest |
+| `experience.html` | `/experience.html` | Education, work timeline, resume download |
+| `projects.html` | `/projects.html` | Project card grid |
+| `contact.html` | `/contact.html` | Email, LinkedIn, GitHub links |
 
 ## Structure
 
 ```
-src/
-├── components/   # Reusable UI components
-├── pages/        # Page-level components / routes
-├── styles/       # Global styles
-└── assets/       # Images, fonts, icons
-public/           # Static assets served at root
+css/styles.css    — All styles
+js/scripts.js     — Mobile nav, scroll reveal, active link
+assets/           — profile.jpg, resume.pdf
 ```
 
-See [CLAUDE.md](./CLAUDE.md) for full project conventions and guidelines.
+## Local Development
+
+No build step needed. Open any `.html` file directly in a browser, or use a simple local server:
+
+```bash
+npx serve .
+# or
+python3 -m http.server 8000
+```
+
+## Deployment
+
+GitHub Pages — push to `main`. Enable in repo Settings → Pages → Deploy from branch → main → / (root).
+
+See [CLAUDE.md](./CLAUDE.md) for full conventions and how to add projects or experience entries.
